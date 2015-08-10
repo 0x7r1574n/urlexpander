@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a URL</title>
+</head>
+<style>
+    h1 {
+        font-family: "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+    }
+    body {
+        font-family: sans-serif;
+        margin: 100px;
+    }
+</style>
+<body>
+    <header>
+        <h1><a href="/">Home</a></h1>
+    </header>
+    <form method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add" style="font-size: x-large">
+    </form>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail</title>
+</head>
+<style>
+    body {
+        font-family: sans-serif;
+        margin: 100px;
+    }
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+        text-align: left;
+    }
+    h1 {
+        font-family: "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+    }
+</style>
+<body>
+    <header>
+        <h1><a href="/">Home</a></h1>
+        <form method="POST">{% csrf_token %}
+            <input type="submit" name="delete" value="Delete" style="float: right; font-size: x-large">
+        </form>
+    </header>
+    <h2>Detail</h2>
+    <table style="width: 100%">
+        <tr>
+            <th>Shortened URL</th>
+            <td><a href="{{ url.origin }}">{{ url.origin }}</a></td>
+        </tr>
+        <tr>
+            <th>Expanded URL</th>
+            <td><a href="{{ url.destination }}">{{ url.destination }}</a></td>
+        </tr>
+        <tr>
+            <th>HTTP Status Code</th>
+            {% if url.status == 200 %}
+                <td style="color: green">{{ url.status }}</td>
+                {% else %}
+                <td style="color: red">{{ url.status }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <th>Page Title</th>
+            <td>{{ url.title }}</td>
+        </tr>
+    </table>
+</body>
+</html>

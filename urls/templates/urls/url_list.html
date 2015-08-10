@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Expander</title>
+</head>
+<style>
+    h1 {
+        font-family: "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+    }
+    body {
+        font-family: sans-serif;
+        margin: 100px;
+    }
+</style>
+<body>
+    <header>
+        <h1><a href="/">URL Expander</a></h1>
+    </header>
+    <h2>List of Saved URLs</h2>
+    <ul>
+        {% for url in urls %}
+            <li><a href="{% url "url_detail" pk=url.pk %}">{{ url.origin }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url "url_add" %}" style="border: 1px dashed; float: right">Expand New</a>
+</body>
+</html>
