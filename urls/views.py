@@ -1,15 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Url
 from .forms import UrlForm
+from django.contrib.auth.decorators import login_required
 import requests
 import bs4
 
 
+@login_required
 def url_list(request):
     urls = Url.objects.all()
     return render(request, 'urls/url_list.html', {'urls': urls})
 
 
+@login_required
 def url_detail(request, pk):
     url = get_object_or_404(Url, pk=pk)
     if request.POST.get('delete'):
@@ -18,6 +21,7 @@ def url_detail(request, pk):
     return render(request, 'urls/url_detail.html', {'url': url})
 
 
+@login_required
 def url_add(request):
     if request.method == 'POST':
         form = UrlForm(request.POST)
@@ -36,4 +40,3 @@ def url_add(request):
     else:
         form = UrlForm()
     return render(request, 'urls/url_add.html', {'form': form})
-

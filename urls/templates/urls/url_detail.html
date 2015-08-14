@@ -20,13 +20,21 @@
     h1 {
         font-family: "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
     }
+    header {
+        float: right;
+    }
+    input {
+        color: red;
+    }
 </style>
 <body>
+    <h1><a href="/urlexpander">Home</a></h1>
     <header>
-        <h1><a href="/urlexpander">Home</a></h1>
-        <form method="POST">{% csrf_token %}
-            <input type="submit" name="delete" value="Delete" style="float: right; font-size: x-large">
-        </form>
+        {% if user.is_authenticated %}
+        <p class="auth">Hello {{ user.first_name }} (<a href="{% url "django.contrib.auth.views.logout" %}">Log out</a>)</p>
+        {% else %}
+        <a href="{% url "django.contrib.auth.views.login" %}" class="auth">Login</a>
+        {% endif %}
     </header>
     <h2>Detail</h2>
     <table style="width: 100%">
@@ -51,5 +59,8 @@
             <td>{{ url.title }}</td>
         </tr>
     </table>
+    <form method="POST">{% csrf_token %}
+        <input type="submit" name="delete" value="Delete" style="float: right; font-size: x-large">
+    </form>
 </body>
 </html>

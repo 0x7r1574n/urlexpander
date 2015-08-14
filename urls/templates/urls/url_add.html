@@ -12,10 +12,18 @@
         font-family: sans-serif;
         margin: 100px;
     }
+    header {
+        float: right;
+    }
 </style>
 <body>
+    <h1><a href="/urlexpander">Home</a></h1>
     <header>
-        <h1><a href="/urlexpander">Home</a></h1>
+        {% if user.is_authenticated %}
+        <p class="auth">Hello {{ user.first_name }} (<a href="{% url "django.contrib.auth.views.logout" %}">Log out</a>)</p>
+        {% else %}
+        <a href="{% url "django.contrib.auth.views.login" %}" class="auth">Login</a>
+        {% endif %}
     </header>
     <form method="POST">{% csrf_token %}
         {{ form.as_p }}
