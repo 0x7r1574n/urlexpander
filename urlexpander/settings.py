@@ -109,4 +109,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Authentication
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/urlexpander'
