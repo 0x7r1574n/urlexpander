@@ -58,6 +58,10 @@
             <th>Page Title</th>
             <td>{{ url.title }}</td>
         </tr>
+        <tr>
+            <th>Screenshot URL</th>
+            <td>{{ url.screenshot.url }}</td>
+        </tr>
     </table>
     <form method="POST">{% csrf_token %}
         <input type="submit" name="delete" value="Delete" style="float: right; font-size: x-large">
