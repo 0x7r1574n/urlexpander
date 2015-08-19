@@ -34,6 +34,7 @@ def url_add(request):
             url.destination = r.url
             url.status = r.status_code
             title_tag = bs4.BeautifulSoup(r.text).title
+            url.screenshot = webdriver.PhantomJS().get(url.destination).get_screenshot_as_file('%s.png' % url.pk)
             if title_tag:
                 url.title = title_tag.text
             else:
