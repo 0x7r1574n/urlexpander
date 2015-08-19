@@ -7,5 +7,5 @@ urlpatterns = [
     url(r'^url/new/$', views.url_add, name='url_add'),
     url(r'^api/$', views.UrlList.as_view(), name='url-list'),
     url(r'^api/(?P<pk>[0-9]+)/$', views.UrlDetail.as_view(), name='url-detail'),
-    url(r'^recapture/(?P<pk>[0-9]+)$', views.recapture, name='screenshot_recapture')
+    url(r'^recapture/(?P<pk>[0-9]+)/$', views.recapture, name='screenshot_recapture')
 ]
