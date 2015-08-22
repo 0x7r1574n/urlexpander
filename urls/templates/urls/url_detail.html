@@ -58,10 +58,11 @@
             <th>Page Title</th>
             <td>{{ url.title }}</td>
         </tr>
+        <tr>
+            <th>Screenshot URL</th>
+            <td><a href="{{ url.screenshot }}">{{ url.screenshot }}</a></td>
+        </tr>
     </table>
-    <div class="screenshot">
-        <img src="{{ url.screenshot }}" alt="{{ url.title }}">
-    </div>
     <form method="POST">{% csrf_token %}
         <input type="submit" name="delete" value="Delete" style="float: right; font-size: x-large">
     </form>
