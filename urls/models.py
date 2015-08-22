@@ -1,4 +1,3 @@
-from tempfile import TemporaryFile
 import hashlib
 from django.db import models
 import requests
@@ -26,15 +25,17 @@ class Url(models.Model):
             self.title = title_tag.text
         else:
             self.title = 'None'
-        self.upload()
+        h = hashlib.md5()
+        h.update(self.origin + self.title)
+        filename = h.hexdigest() + '.png'
+        self.upload(filename)
         self.save()
 
-    def upload(self):
+    def upload(self, filename):
         # instantiate PahntomJS driver
         driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
         driver.get(self.destination)
-        temp_file = TemporaryFile()
-        temp_file.write(driver.get_screenshot_as_png())
+        driver.save_screenshot('/tmp/%s' % filename)
         driver.quit()
         # get and upload screenshot
         conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
@@ -43,10 +44,10 @@ class Url(models.Model):
         # generating unique hash name for the file
         h = hashlib.md5()
         h.update(self.origin + self.title)
-        key.key = '/screenshots/%s.png' % h.hexdigest()
-        key.set_contents_from_file(temp_file)
+        key.key = '/screenshots/%s' % filename
+        key.set_contents_from_filename('/tmp/%s' % filename)
         bucket.set_acl('public-read', key.key)
-        temp_file.close()
+        os.remove('/tmp/%s' % filename)
         # image URL with leading slash trimmed
         self.screenshot = settings.STATIC_URL + key.key[1:]
 
