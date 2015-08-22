@@ -31,16 +31,7 @@ def url_add(request):
         form = UrlForm(request.POST)
         if form.is_valid():
             url = form.save(commit=False)
-            r = requests.get(url.origin)
-            url.destination = r.url
-            url.status = r.status_code
-            title_tag = bs4.BeautifulSoup(r.text).title
-            url.screenshot = webdriver.PhantomJS(os.path.devnull).get(url.destination).get_screenshot_as_file('%s.png' % url.pk)
-            if title_tag:
-                url.title = title_tag.text
-            else:
-                url.title = 'None'
-            url.save()
+            url.create()
             return redirect('urls.views.url_detail', pk=url.pk)
     else:
         form = UrlForm()
@@ -60,4 +51,5 @@ class UrlDetail(generics.RetrieveDestroyAPIView):
 def recapture(request, pk):
     url = get_object_or_404(Url, pk=pk)
     if request.method == 'POST':
-        url.screenshot = webdriver.PhantomJS(os.path.devnull).get(url.destination).get_screenshot_as_file('%s.png' % pk)
+        url.screenshot = webdriver.PhantomJS(service_log_path=os.path.devnull).get(url.destination)\
+            .get_screenshot_as_file('%s.png' % pk)

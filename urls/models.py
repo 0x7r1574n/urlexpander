@@ -16,8 +16,13 @@ class Url(models.Model):
         r = requests.get(self.origin)
         self.destination = r.url
         self.status = r.status_code
-        self.title = bs4.BeautifulSoup(r.text).title.text
-        self.screenshot = webdriver.PhantomJS(service_log_path=os.path.devnull).get(self.destination).get_screenshot_as_file('%s.png' % self.pk)
+        title_tag = bs4.BeautifulSoup(r.text).title
+        if title_tag:
+            self.title = title_tag.text
+        else:
+            self.title = 'None'
+        self.screenshot = webdriver.PhantomJS(service_log_path=os.path.devnull).get(self.destination)\
+            .get_screenshot_as_file('%s.png' % self.pk)
         self.save()
 
     def __str__(self):
