@@ -20,6 +20,8 @@ def url_detail(request, pk):
     if request.POST.get('delete'):
         url.delete()
         return redirect('urls.views.url_list')
+    elif request.POST.get('recapture'):
+        url.upload()
     return render(request, 'urls/url_detail.html', {'url': url})
 
 
