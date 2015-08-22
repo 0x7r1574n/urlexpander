@@ -4,8 +4,6 @@ from .serializers import UrlSerializer
 from .forms import UrlForm
 from django.contrib.auth.decorators import login_required
 from rest_framework import generics
-from selenium import webdriver
-import os
 
 
 @login_required(login_url='/urlexpander/accounts/login/')
@@ -36,16 +34,19 @@ def url_add(request):
     return render(request, 'urls/url_add.html', {'form': form})
 
 
+@login_required(login_url='/urlexpander/accounts/login/')
 class UrlList(generics.ListCreateAPIView):
     queryset = Url.objects.all()
     serializer_class = UrlSerializer
 
 
+@login_required(login_url='/urlexpander/accounts/login/')
 class UrlDetail(generics.RetrieveDestroyAPIView):
     queryset = Url.objects.all()
     serializer_class = UrlSerializer
 
 
+@login_required(login_url='/urlexpander/accounts/login/')
 def recapture(request, pk):
     url = get_object_or_404(Url, pk=pk)
     if request.method == 'POST':
