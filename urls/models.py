@@ -25,13 +25,14 @@ class Url(models.Model):
             self.title = title_tag.text
         else:
             self.title = 'None'
+        self.upload()
+        self.save()
+
+    def upload(self):
+        # unique name
         h = hashlib.md5()
         h.update(self.origin + self.title)
         filename = h.hexdigest() + '.png'
-        self.upload(filename)
-        self.save()
-
-    def upload(self, filename):
         # instantiate PahntomJS driver
         driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
         driver.get(self.destination)
@@ -50,6 +51,18 @@ class Url(models.Model):
         os.remove('/tmp/%s' % filename)
         # image URL with leading slash trimmed
         self.screenshot = 'http://cechishi-bucket.s3.amazonaws.com/' + key.key[1:]
+
+    def delete(self, using=None):
+        # get and upload screenshot
+        h = hashlib.md5()
+        h.update(self.origin + self.title)
+        filename = h.hexdigest() + '.png'
+        conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+        bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
+        key = Key(bucket)
+        key.key = '/screenshots/%s' % filename
+        bucket.delete_key(key)
+        super(Url, self).delete()
 
     def __str__(self):
         return self.origin

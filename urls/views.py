@@ -49,5 +49,4 @@ class UrlDetail(generics.RetrieveDestroyAPIView):
 def recapture(request, pk):
     url = get_object_or_404(Url, pk=pk)
     if request.method == 'POST':
-        url.screenshot = webdriver.PhantomJS(service_log_path=os.path.devnull).get(url.destination)\
-            .get_screenshot_as_file('%s.png' % pk)
+        url.upload()
