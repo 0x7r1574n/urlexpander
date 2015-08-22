@@ -32,7 +32,7 @@ class Url(models.Model):
         driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
         driver.get(self.destination)
         # get and upload screenshot
-        conn = boto.connect_s3()
+        conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
         bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
         key = Key(bucket)
         key.key = '/screenshots/%s.png' % self.pk
