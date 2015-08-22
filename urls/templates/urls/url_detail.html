@@ -23,9 +23,6 @@
     header {
         float: right;
     }
-    input {
-        color: red;
-    }
 </style>
 <body>
     <h1><a href="/urlexpander">Home</a></h1>
@@ -64,10 +61,10 @@
         </tr>
     </table>
     <form method="POST">{% csrf_token %}
-        <input type="submit" name="delete" value="Delete" style="float: right; font-size: x-large">
+        <input type="submit" name="delete" value="Delete" style="float: right; font-size: x-large; color: red">
     </form>
     <form method="POST">{% csrf_token %}
-        <input type="submit" name="recapture" value="Recapture screenshot" style="float: right; font-size: x-large">
+        <input type="submit" name="recapture" value="Refresh screenshot" style="float: right; font-size: x-large; color: green">
     </form>
 </body>
 </html>
