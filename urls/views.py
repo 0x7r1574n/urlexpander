@@ -42,7 +42,7 @@ def rest_url_list(request, format=None):
     if request.method == 'GET':
         urls = Url.objects.all()
         serializer = UrlSerializer(urls, many=True)
-        return Url(serializer.data)
+        return Response(serializer.data)
     elif request.method == 'POST':
         serializer = UrlSerializer(data=request.data)
         if serializer.is_valid():
