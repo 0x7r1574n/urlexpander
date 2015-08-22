@@ -22,8 +22,9 @@ class Url(models.Model):
         else:
             self.title = 'None'
         driver = webdriver.PhantomJS(service_log_path=os.path.devnull)
-        self.screenshot = driver.get(self.destination).get_screenshot_as_file('%s.png' % self.pk)
-        driver.close()
+        driver.get(self.destination)
+        self.screenshot = driver.save_screenshot('%s.png' % self.pk)
+        driver.quit()
         self.save()
 
     def __str__(self):
