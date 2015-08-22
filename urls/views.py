@@ -7,6 +7,7 @@ from rest_framework import generics
 import requests
 import bs4
 from selenium import webdriver
+import os
 
 
 @login_required(login_url='/urlexpander/accounts/login/')
@@ -34,7 +35,7 @@ def url_add(request):
             url.destination = r.url
             url.status = r.status_code
             title_tag = bs4.BeautifulSoup(r.text).title
-            url.screenshot = webdriver.PhantomJS().get(url.destination).get_screenshot_as_file('%s.png' % url.pk)
+            url.screenshot = webdriver.PhantomJS(os.path.devnull).get(url.destination).get_screenshot_as_file('%s.png' % url.pk)
             if title_tag:
                 url.title = title_tag.text
             else:
@@ -59,4 +60,4 @@ class UrlDetail(generics.RetrieveDestroyAPIView):
 def recapture(request, pk):
     url = get_object_or_404(Url, pk=pk)
     if request.method == 'POST':
-        url.screenshot = webdriver.PhantomJS().get(url.destination).get_screenshot_as_file('%s.png' % pk)
+        url.screenshot = webdriver.PhantomJS(os.path.devnull).get(url.destination).get_screenshot_as_file('%s.png' % pk)
