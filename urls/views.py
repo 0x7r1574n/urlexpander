@@ -39,7 +39,7 @@ def url_add(request):
 
 @login_required(login_url='/urlexpander/accounts/login/')
 @api_view(['GET', 'POST'])
-def snippet_list(request):
+def url_list(request):
     if request.method == 'GET':
         urls = Url.objects.all()
         serializer = UrlSerializer(urls, many=True)
@@ -54,7 +54,7 @@ def snippet_list(request):
 
 @login_required(login_url='/urlexpander/accounts/login/')
 @api_view(['GET', 'PUT', 'DELETE'])
-def snippet_detail(request, pk):
+def url_detail(request, pk):
     try:
         url = Url.objects.get(pk=pk)
     except Url.DoesNotExist:
