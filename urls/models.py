@@ -49,7 +49,7 @@ class Url(models.Model):
         bucket.set_acl('public-read', key.key)
         os.remove('/tmp/%s' % filename)
         # image URL with leading slash trimmed
-        self.screenshot = settings.STATIC_URL + key.key[1:]
+        self.screenshot = 'http://cechishi-bucket.s3.amazonaws.com/' + key.key[1:]
 
     def __str__(self):
         return self.origin
