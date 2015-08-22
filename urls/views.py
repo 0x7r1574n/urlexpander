@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from .serializers import UrlSerializer
 from .forms import UrlForm
 from django.contrib.auth.decorators import login_required
-from rest_framework import generics
 
 
 @login_required(login_url='/urlexpander/accounts/login/')
@@ -39,7 +38,7 @@ def url_add(request):
 
 @login_required(login_url='/urlexpander/accounts/login/')
 @api_view(['GET', 'POST'])
-def rest_url_list(request):
+def rest_url_list(request, format=None):
     if request.method == 'GET':
         urls = Url.objects.all()
         serializer = UrlSerializer(urls, many=True)
@@ -54,7 +53,7 @@ def rest_url_list(request):
 
 @login_required(login_url='/urlexpander/accounts/login/')
 @api_view(['GET', 'PUT', 'DELETE'])
-def rest_url_detail(request, pk):
+def rest_url_detail(request, pk, format=None):
     try:
         url = Url.objects.get(pk=pk)
     except Url.DoesNotExist:
@@ -78,7 +77,7 @@ def rest_url_detail(request, pk):
 
 @login_required(login_url='/urlexpander/accounts/login/')
 @api_view(['POST', ])
-def recapture(request, pk):
+def recapture(request, pk, format=None):
     url = get_object_or_404(Url, pk=pk)
     if request.method == 'POST':
         url.upload()
