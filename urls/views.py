@@ -4,8 +4,6 @@ from .serializers import UrlSerializer
 from .forms import UrlForm
 from django.contrib.auth.decorators import login_required
 from rest_framework import generics
-import requests
-import bs4
 from selenium import webdriver
 import os
 
